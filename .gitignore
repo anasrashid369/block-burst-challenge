@@ -1,0 +1,14 @@
+# compiled output
+*.class
+out/
+
+# runtime logs (keep the folder itself)
+logs/*
+!logs/.gitkeep
+
+# player's local best score
+data/best_score.txt
+
+# editor settings
+.idea/
+.vscode/
