@@ -1,8 +1,11 @@
 package com.blockburst.util;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class ScoreManager {
@@ -32,5 +35,21 @@ public class ScoreManager {
     }
 
     public void saveBest(int score) {
+        File file = new File(Constants.BEST_SCORE_FILE);
+        File folder = file.getParentFile();
+
+        if (folder != null && !folder.exists()) {
+            if (!folder.mkdirs()) {
+                System.err.println("Could not create data folder.");
+                return;
+            }
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write(String.valueOf(score));
+            writer.newLine();
+        } catch (IOException e) {
+            System.err.println("Could not save best score: " + e.getMessage());
+        }
     }
 }
