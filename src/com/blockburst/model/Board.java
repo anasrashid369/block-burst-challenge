@@ -27,8 +27,37 @@ public class Board {
                 if (cells[r][c] == 1) grid[row + r][col + c] = p.getColor();
     }
 
-    // Find ALL full rows and cols first, then clear together
+        // Find ALL full rows and cols first, then clear together
     // so an intersection cell is cleared (and counted) only once.
+    public ClearResult clearCompleted() {
+        boolean[] fullRow = new boolean[size];
+        boolean[] fullCol = new boolean[size];
+        for (int i = 0; i < size; i++) { fullRow[i] = true; fullCol[i] = true; }
+
+        // pass 1: any empty cell makes its row and its column not full
+        for (int r = 0; r < size; r++)
+            for (int c = 0; c < size; c++)
+                if (grid[r][c] == null) { fullRow[r] = false; fullCol[c] = false; }
+
+        ClearResult result = new ClearResult();
+        for (int r = 0; r < size; r++) if (fullRow[r]) result.addRow();
+        for (int c = 0; c < size; c++) if (fullCol[c]) result.addCol();
+
+        // pass 2: collect each cleared cell once
+        boolean[][] mark = new boolean[size][size];
+        for (int r = 0; r < size; r++)
+            for (int c = 0; c < size; c++)
+                if ((fullRow[r] || fullCol[c]) && !mark[r][c]) {
+                    mark[r][c] = true;
+                    result.addCell(r, c);
+                }
+
+        // pass 3: only now actually empty the cells
+        for (int[] cell : result.getClearedCells())
+            grid[cell[0]][cell[1]] = null;
+
+        return result;
+    }
    
 
     public boolean canFitAnywhere(BlockPiece p) {
