@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 
 public class ScoreManager {
@@ -35,6 +34,12 @@ public class ScoreManager {
     }
 
     public void saveBest(int score) {
+        int best = loadBest();
+
+        if (score <= best) {
+            return;
+        }
+
         File file = new File(Constants.BEST_SCORE_FILE);
         File folder = file.getParentFile();
 
