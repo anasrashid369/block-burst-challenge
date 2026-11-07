@@ -33,4 +33,8 @@ public class AnimationManager {
             d.draw(g);
         }
     }
+
+    public void clear() {
+        drawables.clear();
+    }
 }
