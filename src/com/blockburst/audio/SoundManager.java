@@ -74,6 +74,14 @@ public class SoundManager {
         return muted;
     }
 
+    public void close() {
+        for (Clip clip : clips.values()) {
+            clip.stop();
+            clip.close();
+        }
+        clips.clear();
+    }
+
     private void stopAll() {
         for (Clip clip : clips.values()) {
             clip.stop();
