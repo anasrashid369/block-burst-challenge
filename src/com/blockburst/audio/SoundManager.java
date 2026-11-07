@@ -44,4 +44,16 @@ public class SoundManager {
             System.err.println("Could not load sound " + name + ": " + e.getMessage());
         }
     }
+
+    public void play(String name) {
+        Clip clip = clips.get(name);
+
+        if (clip == null) {
+            return;
+        }
+
+        clip.stop();
+        clip.setFramePosition(0);
+        clip.start();
+    }
 }
