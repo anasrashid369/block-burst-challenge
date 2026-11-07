@@ -25,10 +25,10 @@ public class ScoreManager {
 
             return Integer.parseInt(line.trim());
         } catch (NumberFormatException e) {
-            System.err.println("Best score file does not contain a number.");
+            GameLogger.error("Best score file does not contain a number", e);
             return 0;
         } catch (IOException e) {
-            System.err.println("Could not read best score: " + e.getMessage());
+            GameLogger.error("Could not read best score", e);
             return 0;
         }
     }
@@ -45,7 +45,7 @@ public class ScoreManager {
 
         if (folder != null && !folder.exists()) {
             if (!folder.mkdirs()) {
-                System.err.println("Could not create data folder.");
+                GameLogger.error("Could not create data folder", new IOException("Folder creation failed"));
                 return;
             }
         }
@@ -54,7 +54,7 @@ public class ScoreManager {
             writer.write(String.valueOf(score));
             writer.newLine();
         } catch (IOException e) {
-            System.err.println("Could not save best score: " + e.getMessage());
+            GameLogger.error("Could not save best score", e);
         }
     }
 }
