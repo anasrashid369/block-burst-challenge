@@ -27,11 +27,20 @@ public class SoundManager {
     private void loadClip(String name) {
         File file = new File(SOUND_FOLDER + name + ".wav");
 
+        if (!file.exists()) {
+            System.err.println("Sound file not found: " + file.getPath());
+            return;
+        }
+
+        Clip clip = null;
         try (AudioInputStream audio = AudioSystem.getAudioInputStream(file)) {
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
             clip.open(audio);
             clips.put(name, clip);
         } catch (LineUnavailableException | UnsupportedAudioFileException | IOException | IllegalArgumentException e) {
+            if (clip != null) {
+                clip.close();
+            }
             System.err.println("Could not load sound " + name + ": " + e.getMessage());
         }
     }
