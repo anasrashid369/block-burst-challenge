@@ -17,6 +17,13 @@ public class SoundManager {
 
     private final Map<String, Clip> clips = new HashMap<>();
 
+    public SoundManager() {
+        loadClip("select");
+        loadClip("place");
+        loadClip("clear");
+        loadClip("invalid");
+    }
+
     private void loadClip(String name) {
         File file = new File(SOUND_FOLDER + name + ".wav");
 
