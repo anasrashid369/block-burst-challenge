@@ -45,4 +45,8 @@ public class GameLogger {
             System.err.println("Could not write log: " + e.getMessage());
         }
     }
+
+    public static void info(String message) {
+        write("INFO", message);
+    }
 }
