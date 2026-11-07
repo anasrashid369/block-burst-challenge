@@ -47,6 +47,10 @@ public class SoundManager {
     }
 
     public void play(String name) {
+        if (muted) {
+            return;
+        }
+
         Clip clip = clips.get(name);
 
         if (clip == null) {
@@ -60,9 +64,19 @@ public class SoundManager {
 
     public void toggleMute() {
         muted = !muted;
+
+        if (muted) {
+            stopAll();
+        }
     }
 
     public boolean isMuted() {
         return muted;
+    }
+
+    private void stopAll() {
+        for (Clip clip : clips.values()) {
+            clip.stop();
+        }
     }
 }
