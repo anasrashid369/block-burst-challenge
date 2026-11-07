@@ -49,4 +49,14 @@ public class GameLogger {
     public static void info(String message) {
         write("INFO", message);
     }
+
+    public static void error(String message, Exception e) {
+        String detail = message;
+
+        if (e != null) {
+            detail = message + ": " + e.getClass().getSimpleName() + " - " + e.getMessage();
+        }
+
+        write("ERROR", detail);
+    }
 }
