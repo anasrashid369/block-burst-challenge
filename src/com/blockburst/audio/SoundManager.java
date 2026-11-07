@@ -16,6 +16,7 @@ public class SoundManager {
     private static final String SOUND_FOLDER = "assets/sounds/";
 
     private final Map<String, Clip> clips = new HashMap<>();
+    private boolean muted = false;
 
     public SoundManager() {
         loadClip("select");
