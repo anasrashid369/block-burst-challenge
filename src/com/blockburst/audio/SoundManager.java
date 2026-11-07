@@ -57,4 +57,12 @@ public class SoundManager {
         clip.setFramePosition(0);
         clip.start();
     }
+
+    public void toggleMute() {
+        muted = !muted;
+    }
+
+    public boolean isMuted() {
+        return muted;
+    }
 }
