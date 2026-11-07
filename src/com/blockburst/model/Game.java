@@ -6,8 +6,9 @@ import com.blockburst.util.GameState;
 import com.blockburst.util.ScoreManager;
 
 public class Game {
-        private static final int LINE_BONUS = 10;
+    private static final int LINE_BONUS = 10;
     private static final int MULTI_LINE_EXTRA = 15;
+
     private final Board board = new Board();
     private final PieceGenerator generator = new PieceGenerator();
     private final ScoreManager scoreManager = new ScoreManager();
@@ -43,7 +44,8 @@ public class Game {
             }
         }
     }
-        public PlaceResult tryPlace(int slot, int row, int col) {
+
+    public PlaceResult tryPlace(int slot, int row, int col) {
         if (state != GameState.PLAYING) return PlaceResult.invalid();
         if (slot < 0 || slot >= tray.length || tray[slot] == null) return PlaceResult.invalid();
 
@@ -53,7 +55,7 @@ public class Game {
         board.place(p, row, col);
         ClearResult clear = board.clearCompleted();
 
-                int lines = clear.getLineCount();
+        int lines = clear.getLineCount();
         int points = p.getCellCount() + lines * LINE_BONUS
                    + (lines > 1 ? (lines - 1) * MULTI_LINE_EXTRA : 0);
         score += points;
@@ -61,12 +63,23 @@ public class Game {
 
         if (allUsed()) tray = generator.generateTray();
 
+        if (mode == GameMode.TIME_ATTACK && score >= Constants.TIME_ATTACK_TARGET)
+            finish(GameState.WON);
+        else if (!anyPieceFits())
+            finish(mode == GameMode.TIME_ATTACK ? GameState.LOST : GameState.GAME_OVER);
+
         return PlaceResult.ok(points, clear);
     }
 
     private boolean allUsed() {
         for (BlockPiece p : tray) if (p != null) return false;
         return true;
+    }
+
+    private boolean anyPieceFits() {
+        for (BlockPiece p : tray)
+            if (p != null && board.canFitAnywhere(p)) return true;
+        return false;
     }
 
     private void finish(GameState end) {
