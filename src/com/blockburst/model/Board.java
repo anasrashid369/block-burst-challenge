@@ -1,10 +1,11 @@
 package com.blockburst.model;
 
 import java.awt.Color;
+import com.blockburst.util.Constants;
 
 public class Board {
-    private final int size = 8;   // TODO: switch to Constants.BOARD_SIZE when util is pushed
-    private final Color[][] grid = new Color[size][size];   // null = empty  // null = empty
+   private final int size = Constants.BOARD_SIZE;
+    private final Color[][] grid = new Color[size][size];   // null = empty 
 
     public boolean canPlace(BlockPiece p, int row, int col) {
         int[][] cells = p.getCells();
