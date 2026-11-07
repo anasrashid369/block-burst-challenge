@@ -41,6 +41,29 @@ public class Game {
             }
         }
     }
+        public PlaceResult tryPlace(int slot, int row, int col) {
+        if (state != GameState.PLAYING) return PlaceResult.invalid();
+        if (slot < 0 || slot >= tray.length || tray[slot] == null) return PlaceResult.invalid();
+
+        BlockPiece p = tray[slot];
+        if (!board.canPlace(p, row, col)) return PlaceResult.invalid();   // piece stays in tray
+
+        board.place(p, row, col);
+        ClearResult clear = board.clearCompleted();
+
+        int points = p.getCellCount();
+        score += points;
+        tray[slot] = null;
+
+        if (allUsed()) tray = generator.generateTray();
+
+        return PlaceResult.ok(points, clear);
+    }
+
+    private boolean allUsed() {
+        for (BlockPiece p : tray) if (p != null) return false;
+        return true;
+    }
 
     private void finish(GameState end) {
         state = end;
