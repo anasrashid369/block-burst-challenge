@@ -1,5 +1,6 @@
 package com.blockburst.anim;
 
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,6 +25,12 @@ public class AnimationManager {
             if (d.isFinished()) {
                 iterator.remove();
             }
+        }
+    }
+
+    public void drawAll(Graphics2D g) {
+        for (Drawable d : drawables) {
+            d.draw(g);
         }
     }
 }
