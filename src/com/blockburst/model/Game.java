@@ -6,6 +6,8 @@ import com.blockburst.util.GameState;
 import com.blockburst.util.ScoreManager;
 
 public class Game {
+        private static final int LINE_BONUS = 10;
+    private static final int MULTI_LINE_EXTRA = 15;
     private final Board board = new Board();
     private final PieceGenerator generator = new PieceGenerator();
     private final ScoreManager scoreManager = new ScoreManager();
@@ -51,7 +53,9 @@ public class Game {
         board.place(p, row, col);
         ClearResult clear = board.clearCompleted();
 
-        int points = p.getCellCount();
+                int lines = clear.getLineCount();
+        int points = p.getCellCount() + lines * LINE_BONUS
+                   + (lines > 1 ? (lines - 1) * MULTI_LINE_EXTRA : 0);
         score += points;
         tray[slot] = null;
 
