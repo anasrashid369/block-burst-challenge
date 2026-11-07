@@ -1,5 +1,7 @@
 package com.blockburst.audio;
 
+import com.blockburst.util.GameLogger;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,13 +25,14 @@ public class SoundManager {
         loadClip("place");
         loadClip("clear");
         loadClip("invalid");
+        GameLogger.info("Loaded " + clips.size() + " of 4 sounds");
     }
 
     private void loadClip(String name) {
         File file = new File(SOUND_FOLDER + name + ".wav");
 
         if (!file.exists()) {
-            System.err.println("Sound file not found: " + file.getPath());
+            GameLogger.error("Could not load sound " + name, new IOException("File not found: " + file.getPath()));
             return;
         }
 
@@ -42,7 +45,7 @@ public class SoundManager {
             if (clip != null) {
                 clip.close();
             }
-            System.err.println("Could not load sound " + name + ": " + e.getMessage());
+            GameLogger.error("Could not load sound " + name, e);
         }
     }
 
