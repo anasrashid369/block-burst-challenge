@@ -1,6 +1,8 @@
 package com.blockburst.util;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -25,5 +27,22 @@ public class GameLogger {
         }
 
         return true;
+    }
+
+    private static void write(String level, String message) {
+        try {
+            if (!prepareFile()) {
+                return;
+            }
+
+            File file = new File(Constants.LOG_FILE);
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+                writer.write(timestamp() + " [" + level + "] " + message);
+                writer.newLine();
+            }
+        } catch (Exception e) {
+            System.err.println("Could not write log: " + e.getMessage());
+        }
     }
 }
