@@ -8,6 +8,7 @@ public final class Constants {
     public static final int CELL_SIZE = 60;
     public static final int FPS_DELAY_MS = 16;
     public static final String BEST_SCORE_FILE = "data/best_score.txt";
+    public static final String LOG_FILE = "logs/game.log";
 
     private Constants() {
     }
